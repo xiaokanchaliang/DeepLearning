@@ -32,5 +32,5 @@ prcessData=np.concatenate((calcinationTemperature,
                            grayChamberOutletTemperature), axis = 1)
 
 processDataFile=open('processDataFile.csv','w',newline='')
-csv_writer=csv.writer(processDataFile)
-csv_writer.writerows(prcessData)
+csvWriter=csv.writer(processDataFile)
+csvWriter.writerows(prcessData)
