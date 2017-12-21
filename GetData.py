@@ -1,11 +1,12 @@
 import csv
 import numpy as np
-import matplotlib.pyplot as plt
 
 inputData = np.zeros((1000,13),dtype=np.float32)
+
 outputData1 = np.zeros((1000,1),dtype=np.float32)
 outputData2 = np.zeros((1000,1),dtype=np.float32)
 outputData3 = np.zeros((1000,1),dtype=np.float32)
+
 labelData1 = np.zeros((1000,1),dtype=np.int32)
 labelData2 = np.zeros((1000,1),dtype=np.int32)
 labelData3 = np.zeros((1000,1),dtype=np.int32)
