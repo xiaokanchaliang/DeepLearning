@@ -4,10 +4,14 @@ import csv
 inputData=np.random.random((1000,13))
 outputData=np.zeros((1000,3),dtype=np.float32)
 
+noise1=np.random.uniform(-0.1,0.1,1000)
+noise2=np.random.uniform(-0.1,0.1,1000)
+noise3=np.random.uniform(-0.1,0.1,1000)
+
 for i in range(1000):
-    outputData[i][0]=inputData[i][0]*0.2+inputData[i][1]*0.05+inputData[i][2]*0.05+inputData[i][3]*0.1+inputData[i][4]*0.1+inputData[i][5]*0.1+inputData[i][6]*0.05+inputData[i][7]*0.15+inputData[i][8]*0.15+inputData[i][9]*0.05+inputData[i][10]*0+inputData[i][11]*0+inputData[i][12]*0
-    outputData[i][1]=inputData[i][0]*0+inputData[i][1]*0+inputData[i][2]*0.17+inputData[i][3]*0.03+inputData[i][4]*0.1+inputData[i][5]*0+inputData[i][6]*0.13+inputData[i][7]*0.07+inputData[i][8]*0.1+inputData[i][9]*0.1+inputData[i][10]*0.17+inputData[i][11]*0.03+inputData[i][12]*0.1
-    outputData[i][2]=inputData[i][0]*0.13+inputData[i][1]*0.07+inputData[i][2]*0.1+inputData[i][3]*0.1+inputData[i][4]*0+inputData[i][5]*0+inputData[i][6]*0.05+inputData[i][7]*0.05+inputData[i][8]*0.17+inputData[i][9]*0.03+inputData[i][10]*0.1+inputData[i][11]*0.1+inputData[i][12]*0.1
+    outputData[i][0]=inputData[i][0]*0.2+inputData[i][1]*0.05+inputData[i][2]*0.05+inputData[i][3]*0.1+inputData[i][4]*0.1+inputData[i][5]*0.1+inputData[i][6]*0.05+inputData[i][7]*0.15+inputData[i][8]*0.15+inputData[i][9]*0.05+inputData[i][10]*0+inputData[i][11]*0+inputData[i][12]*0+noise1[i]
+    outputData[i][1]=inputData[i][0]*0+inputData[i][1]*0+inputData[i][2]*0.17+inputData[i][3]*0.03+inputData[i][4]*0.1+inputData[i][5]*0+inputData[i][6]*0.13+inputData[i][7]*0.07+inputData[i][8]*0.1+inputData[i][9]*0.1+inputData[i][10]*0.17+inputData[i][11]*0.03+inputData[i][12]*0.1+noise2[i]
+    outputData[i][2]=inputData[i][0]*0.13+inputData[i][1]*0.07+inputData[i][2]*0.1+inputData[i][3]*0.1+inputData[i][4]*0+inputData[i][5]*0+inputData[i][6]*0.05+inputData[i][7]*0.05+inputData[i][8]*0.17+inputData[i][9]*0.03+inputData[i][10]*0.1+inputData[i][11]*0.1+inputData[i][12]*0.1+noise3[i]
 
 processData=np.zeros((1000,13),dtype=np.int32)
 qualityData=np.zeros((1000,3),dtype=np.float32)
@@ -45,4 +49,4 @@ qualityWriter=csv.writer(qualityDataFile)
 processWriter.writerows(processData)
 qualityWriter.writerows(qualityData)
 
-print(outputData)
+print(noise1)
