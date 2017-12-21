@@ -1,5 +1,6 @@
 import csv
 import numpy as np
+import matplotlib.pyplot as plt
 
 inputData = np.zeros((1000,13),dtype=np.float32)
 outputData1 = np.zeros((1000,1),dtype=np.float32)
