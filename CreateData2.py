@@ -48,5 +48,3 @@ processWriter=csv.writer(processDataFile)
 qualityWriter=csv.writer(qualityDataFile)
 processWriter.writerows(processData)
 qualityWriter.writerows(qualityData)
-
-print(noise1)
