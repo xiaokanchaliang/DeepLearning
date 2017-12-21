@@ -6,12 +6,17 @@ inputData = np.zeros((1000,13),dtype=np.float32)
 outputData1 = np.zeros((1000,1),dtype=np.float32)
 outputData2 = np.zeros((1000,1),dtype=np.float32)
 outputData3 = np.zeros((1000,1),dtype=np.float32)
+labelData1 = np.zeros((1000,1),dtype=np.int32)
+labelData2 = np.zeros((1000,1),dtype=np.int32)
+labelData3 = np.zeros((1000,1),dtype=np.int32)
 
-inputReader = csv.reader(open('inputDataFile.csv', encoding='utf-8'))
-outputReader = csv.reader(open('outputDataFile.csv', encoding='utf-8'))
+inputReader = csv.reader(open('input.csv', encoding='utf-8'))
+outputReader = csv.reader(open('output.csv', encoding='utf-8'))
+labelReader = csv.reader(open('label.csv', encoding='utf-8'))
 
 inputRowNumber = 0
 outputRowNumber = 0
+labelRowNumber = 0
 
 for inputRow in inputReader:
     inputData[inputRowNumber][0] = float(inputRow[0])
@@ -34,4 +39,10 @@ for outputRow in outputReader:
     outputData2[outputRowNumber][0] = float(outputRow[1])
     outputData3[outputRowNumber][0] = float(outputRow[2])
     outputRowNumber = outputRowNumber + 1
+
+for labelRow in labelReader:
+    labelData1[labelRowNumber][0] = float(labelRow[0])
+    labelData2[labelRowNumber][0] = float(labelRow[1])
+    labelData3[labelRowNumber][0] = float(labelRow[2])
+    labelRowNumber = labelRowNumber + 1
 
