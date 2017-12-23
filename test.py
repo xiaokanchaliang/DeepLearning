@@ -2,46 +2,70 @@ import numpy as np
 import tensorflow as tf
 import csv
 
-error=np.zeros((1000,1),dtype=np.float32)
-
 # x_data = np.random.random((1000,13))
 # y_data = np.random.random((1000,1))
 
-input = np.zeros((1000,13),dtype=np.float32)
+input1 = np.empty((800,13))
+input2 = np.empty((200,13))
 
-inputReader = csv.reader(open('input.csv', encoding='utf-8'))
+inputReader = csv.reader(open('processDataForNormalized.csv', encoding='utf-8'))
 
 inputRowNumber = 0
 
 for inputRow in inputReader:
-    input[inputRowNumber][0] = float(inputRow[0])
-    input[inputRowNumber][1] = float(inputRow[1])
-    input[inputRowNumber][2] = float(inputRow[2])
-    input[inputRowNumber][3] = float(inputRow[3])
-    input[inputRowNumber][4] = float(inputRow[4])
-    input[inputRowNumber][5] = float(inputRow[5])
-    input[inputRowNumber][6] = float(inputRow[6])
-    input[inputRowNumber][7] = float(inputRow[7])
-    input[inputRowNumber][8] = float(inputRow[8])
-    input[inputRowNumber][9] = float(inputRow[9])
-    input[inputRowNumber][10] = float(inputRow[10])
-    input[inputRowNumber][11] = float(inputRow[11])
-    input[inputRowNumber][12] = float(inputRow[12])
-    inputRowNumber = inputRowNumber + 1
+    if(inputRowNumber < 800):
+        input1[inputRowNumber][0] = float(inputRow[0])
+        input1[inputRowNumber][1] = float(inputRow[1])
+        input1[inputRowNumber][2] = float(inputRow[2])
+        input1[inputRowNumber][3] = float(inputRow[3])
+        input1[inputRowNumber][4] = float(inputRow[4])
+        input1[inputRowNumber][5] = float(inputRow[5])
+        input1[inputRowNumber][6] = float(inputRow[6])
+        input1[inputRowNumber][7] = float(inputRow[7])
+        input1[inputRowNumber][8] = float(inputRow[8])
+        input1[inputRowNumber][9] = float(inputRow[9])
+        input1[inputRowNumber][10] = float(inputRow[10])
+        input1[inputRowNumber][11] = float(inputRow[11])
+        input1[inputRowNumber][12] = float(inputRow[12])
+        inputRowNumber = inputRowNumber + 1
+    else:
+        input2[inputRowNumber-800][0] = float(inputRow[0])
+        input2[inputRowNumber-800][1] = float(inputRow[1])
+        input2[inputRowNumber-800][2] = float(inputRow[2])
+        input2[inputRowNumber-800][3] = float(inputRow[3])
+        input2[inputRowNumber-800][4] = float(inputRow[4])
+        input2[inputRowNumber-800][5] = float(inputRow[5])
+        input2[inputRowNumber-800][6] = float(inputRow[6])
+        input2[inputRowNumber-800][7] = float(inputRow[7])
+        input2[inputRowNumber-800][8] = float(inputRow[8])
+        input2[inputRowNumber-800][9] = float(inputRow[9])
+        input2[inputRowNumber-800][10] = float(inputRow[10])
+        input2[inputRowNumber-800][11] = float(inputRow[11])
+        input2[inputRowNumber-800][12] = float(inputRow[12])
+        inputRowNumber = inputRowNumber + 1
 
-outputLabel1 = np.zeros((1000,1),dtype=np.float32)
-outputLabel2 = np.zeros((1000,1),dtype=np.float32)
-outputLabel3 = np.zeros((1000,1),dtype=np.float32)
+output11 = np.empty((800,1))
+output12 = np.empty((800,1))
+output13 = np.empty((800,1))
+output21 = np.empty((200,1))
+output22 = np.empty((200,1))
+output23 = np.empty((200,1))
 
-outputLabelReader = csv.reader(open('outputLabel.csv', encoding='utf-8'))
+outputReader = csv.reader(open('labelData.csv', encoding='utf-8'))
 
-outputLabelRowNumber = 0
+outputRowNumber = 0
 
-for outputLabelRow in outputLabelReader:
-    outputLabel1[outputLabelRowNumber][0] = round(float(outputLabelRow[0]),1)
-    outputLabel2[outputLabelRowNumber][0] = round(float(outputLabelRow[1]),1)
-    outputLabel3[outputLabelRowNumber][0] = round(float(outputLabelRow[2]),1)
-    outputLabelRowNumber = outputLabelRowNumber + 1
+for outputRow in outputReader:
+    if (outputRowNumber < 800):
+        output11[outputRowNumber][0] = float(outputRow[0])
+        output12[outputRowNumber][0] = float(outputRow[1])
+        output13[outputRowNumber][0] = float(outputRow[2])
+        outputRowNumber = outputRowNumber + 1
+    else:
+        output21[outputRowNumber-800][0] = float(outputRow[0])
+        output22[outputRowNumber-800][0] = float(outputRow[1])
+        output23[outputRowNumber-800][0] = float(outputRow[2])
+        outputRowNumber = outputRowNumber + 1
 
 # 1.定义添加层的方法
 def add_layer(input_data, in_size, out_size, activity_function=None):
@@ -73,11 +97,17 @@ init = tf.global_variables_initializer()
 sess = tf.Session()
 sess.run(init)
 
-# 7.迭代1000次学习
-for i in range(1000):
-    sess.run(train, feed_dict={xs: input, ys: outputLabel1})
-    error[i][0] = sess.run(loss, feed_dict={xs: input, ys: outputLabel1})
+# 7.迭代学习
+for i in range(10000):
+    sess.run(train, feed_dict={xs: input1, ys: output11})
 
-prediction = sess.run(prediction, feed_dict={xs: input, ys: outputLabel1})
+prediction1Result = sess.run(prediction, feed_dict={xs: input2, ys: output21})
+minus1Result = sess.run(prediction - output21, feed_dict={xs: input2, ys: output21})
 
-print(outputLabel1)
+result = 0
+
+for i in range(200):
+    if(abs(minus1Result[i]) >= 0.1):
+        result = result + 1
+
+print(result/200)

@@ -21,5 +21,4 @@ labelDataWriter=csv.writer(labelDataFile)
 labelDataWriter.writerows(labelData)
 
 plt.plot(np.linspace(1, 1000, 1000), labelData)
-
 plt.show()
