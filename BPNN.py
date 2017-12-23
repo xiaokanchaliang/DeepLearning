@@ -1,7 +1,10 @@
 import numpy as np
 import tensorflow as tf
 
-# 0.定义添加层的方法
+x_data = np.random.random((1000,13))
+y_data = np.random.random((1000,1))
+
+# 1.定义添加层的方法
 def add_layer(input_data, in_size, out_size, activity_function=None):
     a = tf.Variable(tf.random_normal([in_size, out_size]))
     b = tf.Variable(tf.zeros([1, out_size]) + 0.1)
@@ -12,17 +15,13 @@ def add_layer(input_data, in_size, out_size, activity_function=None):
         answer = activity_function(result)
     return answer
 
-# 1.训练的数据
-x_data = np.random.uniform(0, 1, [1000, 13])
-y_data = np.random.uniform(0, 1, [1000, 1])
-
 # 2.定义结点准备接收数据
 xs = tf.placeholder(tf.float32, [None, 13])
 ys = tf.placeholder(tf.float32, [None, 1])
 
 # 3.定义神经网络结构
-hidden_0 = add_layer(xs, 13, 10, activity_function=tf.nn.sigmoid)
-prediction = add_layer(hidden_0, 10, 1, activity_function=tf.nn.sigmoid)
+hidden_1 = add_layer(xs, 13, 10, activity_function=tf.nn.sigmoid)
+prediction = add_layer(hidden_1, 10, 1, activity_function=tf.nn.sigmoid)
 
 # 4.定义误差表达式
 loss = tf.reduce_mean(tf.reduce_sum(tf.square(ys - prediction), reduction_indices=[1]))
@@ -38,5 +37,7 @@ sess.run(init)
 # 7.迭代1000次学习
 for i in range(1000):
     sess.run(train, feed_dict={xs: x_data, ys: y_data})
-    if i%10 == 0:
-        print(sess.run(loss, feed_dict={xs: x_data, ys: y_data}))
+    # if i%10 == 0:
+    #     print(sess.run(loss, feed_dict={xs: x_data, ys: y_data}))
+
+print(sess.run(prediction-y_data, feed_dict={xs: x_data, ys: y_data}))

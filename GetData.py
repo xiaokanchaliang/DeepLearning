@@ -3,21 +3,9 @@ import numpy as np
 
 input = np.zeros((1000,13),dtype=np.float32)
 
-output1 = np.zeros((1000,10),dtype=np.int32)
-output2 = np.zeros((1000,10),dtype=np.int32)
-output3 = np.zeros((1000,10),dtype=np.int32)
-
 inputReader = csv.reader(open('input.csv', encoding='utf-8'))
 
-output1Reader = csv.reader(open('output1.csv', encoding='utf-8'))
-output2Reader = csv.reader(open('output2.csv', encoding='utf-8'))
-output3Reader = csv.reader(open('output3.csv', encoding='utf-8'))
-
 inputRowNumber = 0
-
-output1RowNumber = 0
-output2RowNumber = 0
-output3RowNumber = 0
 
 for inputRow in inputReader:
     input[inputRowNumber][0] = float(inputRow[0])
@@ -34,6 +22,18 @@ for inputRow in inputReader:
     input[inputRowNumber][11] = float(inputRow[11])
     input[inputRowNumber][12] = float(inputRow[12])
     inputRowNumber = inputRowNumber + 1
+
+output1 = np.zeros((1000,10),dtype=np.int32)
+output2 = np.zeros((1000,10),dtype=np.int32)
+output3 = np.zeros((1000,10),dtype=np.int32)
+
+output1Reader = csv.reader(open('output1.csv', encoding='utf-8'))
+output2Reader = csv.reader(open('output2.csv', encoding='utf-8'))
+output3Reader = csv.reader(open('output3.csv', encoding='utf-8'))
+
+output1RowNumber = 0
+output2RowNumber = 0
+output3RowNumber = 0
 
 for outputRow1 in output1Reader:
     output1[output1RowNumber][0] = int(outputRow1[0])
@@ -74,4 +74,16 @@ for outputRow3 in output3Reader:
     output3[output3RowNumber][9] = int(outputRow3[9])
     output3RowNumber = output3RowNumber + 1
 
+outputLabel1 = np.zeros((1000,1),dtype=np.int32)
+outputLabel2 = np.zeros((1000,1),dtype=np.int32)
+outputLabel3 = np.zeros((1000,1),dtype=np.int32)
 
+outputLabelReader = csv.reader(open('outputLabel.csv', encoding='utf-8'))
+
+outputLabelRowNumber = 0
+
+for outputLabelRow in outputLabelReader:
+    outputLabel1[outputLabelRowNumber][0] = int(outputLabelRow[0])
+    outputLabel2[outputLabelRowNumber][0] = int(outputLabelRow[1])
+    outputLabel3[outputLabelRowNumber][0] = int(outputLabelRow[2])
+    outputLabelRowNumber = outputLabelRowNumber + 1
