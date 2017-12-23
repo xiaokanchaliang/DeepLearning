@@ -1,5 +1,4 @@
 import csv
-from sklearn.cluster import KMeans
 
 processReader = csv.reader(open('process.csv', encoding='utf-8'))
 qualityReader = csv.reader(open('quality.csv', encoding='utf-8'))
