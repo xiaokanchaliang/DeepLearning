@@ -3,7 +3,7 @@ import numpy as np
 
 processData = np.random.random((1000,13))
 
-qualityData = np.zeros((1000,3), dtype=np.float32)
+qualityData = np.empty((1000,3))
 
 noiseData1 = np.random.uniform(-0.1,0.1,1000)
 noiseData2 = np.random.uniform(-0.1,0.1,1000)
