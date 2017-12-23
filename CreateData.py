@@ -18,13 +18,9 @@ for i in range(1000):
     outputData[i][1]=input[i][0]*0+input[i][1]*0+input[i][2]*0.17+input[i][3]*0.03+input[i][4]*0.1+input[i][5]*0+input[i][6]*0.13+input[i][7]*0.07+input[i][8]*0.1+input[i][9]*0.1+input[i][10]*0.17+input[i][11]*0.03+input[i][12]*0.1+noise2[i]
     outputData[i][2]=input[i][0]*0.13+input[i][1]*0.07+input[i][2]*0.1+input[i][3]*0.1+input[i][4]*0+input[i][5]*0+input[i][6]*0.05+input[i][7]*0.05+input[i][8]*0.17+input[i][9]*0.03+input[i][10]*0.1+input[i][11]*0.1+input[i][12]*0.1+noise3[i]
 
-    outputLable[i][0] = int(outputData[i][0] * 10)
-    outputLable[i][1] = int(outputData[i][1] * 10)
-    outputLable[i][2] = int(outputData[i][2] * 10)
-
-    output1[i][outputLable[i][0]] = 1;
-    output2[i][outputLable[i][1]] = 1;
-    output3[i][outputLable[i][2]] = 1;
+    outputLable[i][0] = int(outputData[i][0]*10)
+    outputLable[i][1] = int(outputData[i][1]*10)
+    outputLable[i][2] = int(outputData[i][2]*10)
 
 inputFile=open('input.csv','w',newline='')
 outputDataFile=open('outputData.csv','w',newline='')
@@ -35,16 +31,6 @@ outputLableWriter=csv.writer(outputLableFile)
 inputWriter.writerows(input)
 outputWriter.writerows(outputData)
 outputLableWriter.writerows(outputLable)
-
-outputFile1=open('output1.csv','w',newline='')
-outputFile2=open('output2.csv','w',newline='')
-outputFile3=open('output3.csv','w',newline='')
-outputWriter1=csv.writer(outputFile1)
-outputWriter2=csv.writer(outputFile2)
-outputWriter3=csv.writer(outputFile3)
-outputWriter1.writerows(output1)
-outputWriter2.writerows(output2)
-outputWriter3.writerows(output3)
 
 processData=np.zeros((1000,13),dtype=np.int32)
 qualityData=np.zeros((1000,3),dtype=np.float32)
@@ -74,3 +60,5 @@ processWriter=csv.writer(processDataFile)
 qualityWriter=csv.writer(qualityDataFile)
 processWriter.writerows(processData)
 qualityWriter.writerows(qualityData)
+
+print(outputLable)

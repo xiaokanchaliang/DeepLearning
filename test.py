@@ -2,6 +2,8 @@ import numpy as np
 import tensorflow as tf
 import csv
 
+error=np.zeros((1000,1),dtype=np.float32)
+
 # x_data = np.random.random((1000,13))
 # y_data = np.random.random((1000,1))
 
@@ -36,9 +38,9 @@ outputLabelReader = csv.reader(open('outputLabel.csv', encoding='utf-8'))
 outputLabelRowNumber = 0
 
 for outputLabelRow in outputLabelReader:
-    outputLabel1[outputLabelRowNumber][0] = int(outputLabelRow[0])/10
-    outputLabel2[outputLabelRowNumber][0] = int(outputLabelRow[1])/10
-    outputLabel3[outputLabelRowNumber][0] = int(outputLabelRow[2])/10
+    outputLabel1[outputLabelRowNumber][0] = round(float(outputLabelRow[0]),1)
+    outputLabel2[outputLabelRowNumber][0] = round(float(outputLabelRow[1]),1)
+    outputLabel3[outputLabelRowNumber][0] = round(float(outputLabelRow[2]),1)
     outputLabelRowNumber = outputLabelRowNumber + 1
 
 # 1.定义添加层的方法
@@ -74,7 +76,8 @@ sess.run(init)
 # 7.迭代1000次学习
 for i in range(1000):
     sess.run(train, feed_dict={xs: input, ys: outputLabel1})
-    # if i%10 == 0:
-    #     print(sess.run(loss, feed_dict={xs: input, ys: outputLabel1}))
+    error[i][0] = sess.run(loss, feed_dict={xs: input, ys: outputLabel1})
 
-print(sess.run(prediction-outputLabel1, feed_dict={xs: input, ys: outputLabel1}))
+prediction = sess.run(prediction, feed_dict={xs: input, ys: outputLabel1})
+
+print(outputLabel1)
