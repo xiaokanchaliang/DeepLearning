@@ -67,11 +67,16 @@ for outputRow in outputReader:
         output23[outputRowNumber-800][0] = float(outputRow[2])
         outputRowNumber = outputRowNumber + 1
 
+weights1 = tf.Variable(tf.zeros([13, 10]))
+weights2 = tf.Variable(tf.zeros([13, 10]))
+biases1 = tf.Variable(tf.zeros([13, 1]))
+biases2 = tf.Variable(tf.zeros([13, 1]))
+
 # 1.定义添加层的方法
 def add_layer(input_data, in_size, out_size, activity_function=None):
-    a = tf.Variable(tf.zeros([in_size, out_size]) + 0.9)
-    b = tf.Variable(tf.zeros([1, out_size]))
-    result = tf.matmul(input_data, a) + b
+    weights = tf.Variable(tf.zeros([in_size, out_size]))
+    biases = tf.Variable(tf.zeros([1, out_size]))
+    result = tf.matmul(input_data, weights) + biases
     if activity_function is None:
         answer = result
     else:
@@ -103,10 +108,11 @@ for i in range(15000):
 
 result = 0
 
-prediction1Result = sess.run(prediction, feed_dict={xs: input2, ys: output23})
+predictionResult = sess.run(prediction, feed_dict={xs: input2, ys: output23})
 
 for i in range(200):
-    if(int(prediction1Result[i]*10) == int(output23[i]*10)):
+    if(int(predictionResult[i]*10) == int(output23[i]*10)):
         result = result + 1;
 
 print(result/200)
+
