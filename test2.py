@@ -69,8 +69,8 @@ for outputRow in outputReader:
 
 # 1.定义添加层的方法
 def add_layer(input_data, in_size, out_size, activity_function=None):
-    a = tf.Variable(tf.random_normal([in_size, out_size]))
-    b = tf.Variable(tf.zeros([1, out_size]) + 0.1)
+    a = tf.Variable(tf.zeros([in_size, out_size]) + 0.9)
+    b = tf.Variable(tf.zeros([1, out_size]))
     result = tf.matmul(input_data, a) + b
     if activity_function is None:
         answer = result
@@ -98,15 +98,15 @@ sess = tf.Session()
 sess.run(init)
 
 # 7.迭代学习
-for i in range(30000):
-    sess.run(train, feed_dict={xs: input1, ys: output11})
+for i in range(15000):
+    sess.run(train, feed_dict={xs: input1, ys: output13})
 
 result = 0
 
-prediction1Result = sess.run(prediction, feed_dict={xs: input2, ys: output21})
+prediction1Result = sess.run(prediction, feed_dict={xs: input2, ys: output23})
 
 for i in range(200):
-    if(int(prediction1Result[i]*10) == int(output21[i]*10)):
+    if(int(prediction1Result[i]*10) == int(output23[i]*10)):
         result = result + 1;
 
 print(result/200)
