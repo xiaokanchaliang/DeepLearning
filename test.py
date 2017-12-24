@@ -83,8 +83,8 @@ xs = tf.placeholder(tf.float32, [None, 13])
 ys = tf.placeholder(tf.float32, [None, 1])
 
 # 3.定义神经网络结构
-hidden_1 = add_layer(xs, 13, 10, activity_function=tf.nn.sigmoid)
-prediction = add_layer(hidden_1, 10, 1, activity_function=tf.nn.sigmoid)
+hidden_1 = add_layer(xs, 13, 15, activity_function=tf.nn.sigmoid)
+prediction = add_layer(hidden_1, 15, 1, activity_function=tf.nn.sigmoid)
 
 # 4.定义误差表达式
 loss = tf.reduce_mean(tf.reduce_sum(tf.square(ys - prediction), reduction_indices=[1]))
@@ -98,16 +98,15 @@ sess = tf.Session()
 sess.run(init)
 
 # 7.迭代学习
-for i in range(10000):
+for i in range(1000):
     sess.run(train, feed_dict={xs: input1, ys: output11})
 
 prediction1Result = sess.run(prediction, feed_dict={xs: input2, ys: output21})
-minus1Result = sess.run(prediction - output21, feed_dict={xs: input2, ys: output21})
 
 result = 0
 
 for i in range(200):
-    if(abs(minus1Result[i]) >= 0.1):
-        result = result + 1
+    if(int(prediction1Result[i]*10) == int(output21[i]*10)):
+        result = result + 1;
 
 print(result/200)

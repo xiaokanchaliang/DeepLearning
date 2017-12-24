@@ -5,9 +5,9 @@ processData = np.random.random((1000,13))
 
 qualityData = np.empty((1000,3))
 
-noiseData1 = np.random.uniform(-0.1,0.1,1000)
-noiseData2 = np.random.uniform(-0.1,0.1,1000)
-noiseData3 = np.random.uniform(-0.1,0.1,1000)
+noiseData1 = np.random.uniform(-0.05,0.05,1000)
+noiseData2 = np.random.uniform(-0.05,0.05,1000)
+noiseData3 = np.random.uniform(-0.05,0.05,1000)
 
 for i in range(1000):
     qualityData[i][0] = processData[i][0]*0.3 + processData[i][1]*0.1 + processData[i][2]*0.05 + processData[i][3]*0.25 + processData[i][4]*0.15 + processData[i][10]*0.15 + noiseData1[i]
