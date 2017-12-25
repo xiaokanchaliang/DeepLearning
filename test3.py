@@ -1,6 +1,6 @@
-import tensorflow as tf
+from TestBpForGene import BP
+import numpy as np
 
-a = tf.Variable(tf.random_normal([13, 10]))
-b = tf.Variable(tf.zeros([1, 10]) + 0.1)
+data = np.random.random((13, 10))
 
-print(a)
+BP(data)
