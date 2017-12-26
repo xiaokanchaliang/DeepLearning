@@ -56,13 +56,13 @@ def selection(result):
 
 def cross(fatherIndex, motherIndex, data):
 
-    children = np.empty(130, dtype = np.float32)
+    children = np.empty((1,130), dtype = np.float32)
 
     for i in range(65):
 
-        children[i] = data[fatherIndex][i]
+        children[0][i] = data[fatherIndex][i]
 
-        children[i + 65] = data[motherIndex][i + 65]
+        children[0][i + 65] = data[motherIndex][i + 65]
 
     return children
 
@@ -104,7 +104,7 @@ def main():
 
     average = []
 
-    for m in range(100):
+    for m in range(1000):
 
         fatherIndex = selection(result)
 
