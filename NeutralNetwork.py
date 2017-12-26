@@ -2,7 +2,7 @@ import numpy as np
 import tensorflow as tf
 import csv
 
-def BP(data):
+def backPropagation(data):
     # x_data = np.random.random((1000,13))
     # y_data = np.random.random((1000,1))
 
@@ -79,7 +79,6 @@ def BP(data):
             weights = tf.Variable(tf.zeros([in_size, out_size]))
         else:
             weights = tf.Variable(ws,dtype=tf.float32)
-        print(weights)
         biases = tf.Variable(tf.zeros([1, out_size]))
         result = tf.matmul(input_data, weights) + biases
         if activity_function is None:
@@ -109,16 +108,16 @@ def BP(data):
 
     # 7.迭代学习
     for i in range(15000):
-        sess.run(train, feed_dict={xs: input1, ys: output13})
+        sess.run(train, feed_dict={xs: input1, ys: output11})
 
     result = 0
 
-    predictionResult = sess.run(prediction, feed_dict={xs: input2, ys: output23})
+    predictionResult = sess.run(prediction, feed_dict={xs: input2, ys: output21})
 
     for i in range(200):
-        if(int(predictionResult[i]*10) == int(output23[i]*10)):
+        if(int(predictionResult[i]*10) == int(output21[i]*10)):
             result = result + 1;
 
-    print(result/200)
+    return result/200
 
 

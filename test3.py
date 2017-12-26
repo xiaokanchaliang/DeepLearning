@@ -1,6 +1,3 @@
-from TestBpForGene import BP
-import numpy as np
+from Gene import main
 
-data = np.random.random((13, 10))
-
-BP(data)
+print(main())
