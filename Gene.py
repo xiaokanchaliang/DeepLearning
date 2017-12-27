@@ -133,11 +133,28 @@ def cross(fatherIndex, motherIndex, data):
 
     rand = int(np.random.random(1)*130)
 
-    children[0][rand] = 0
-    children[0][rand + 1] = 0
-    children[0][rand + 2] = 0
-    children[0][rand + 3] = 0
-    children[0][rand + 4] = 0
+    if(rand < 120):
+        children[0][rand] = 0
+        children[0][rand + 1] = 0
+        children[0][rand + 2] = 0
+        children[0][rand + 3] = 0
+        children[0][rand + 4] = 0
+        children[0][rand + 5] = 0
+        children[0][rand + 6] = 0
+        children[0][rand + 7] = 0
+        children[0][rand + 8] = 0
+        children[0][rand + 9] = 0
+    else:
+        children[0][rand] = 0
+        children[0][rand - 1] = 0
+        children[0][rand - 2] = 0
+        children[0][rand - 3] = 0
+        children[0][rand - 4] = 0
+        children[0][rand - 5] = 0
+        children[0][rand - 6] = 0
+        children[0][rand - 7] = 0
+        children[0][rand - 8] = 0
+        children[0][rand - 9] = 0
 
     return children
 
@@ -225,13 +242,13 @@ def getMaxium(data):
 
 def main():
 
-    data, result = getDataAndResultFromFile("geneSourceData201712272331.csv", "geneResultData201712272331.csv")
+    data, result = getDataAndResultFromFile("geneSourceData201712272331.csv", "geneSourceResult201712272331.csv")
 
-    average = []
+    average = np.empty((1000, 1), dtype = np.float32)
 
-    maxium = []
+    maxium = np.empty((1000, 1), dtype = np.float32)
 
-    for m in range(100):
+    for m in range(1000):
 
         fatherIndex = select(result)
 
@@ -247,14 +264,16 @@ def main():
 
         result[worstIndex] = backPropagation(convertToMatrix(children))
 
-        average.append(getAverage(result))
+        average[m][0] = getAverage(result)
 
-        maxium.append(getMaxium(result))
+        maxium[m][0] = getMaxium(result)
 
-        print("iteration " + str(m) + ":" + str(result[worstIndex]) + " average:" + str(average[average.size - 1]) + " maxium:" + str(maxium[maxium.size - 1]))
+        print("iteration " + str(m) + ":" + str(result[worstIndex]) + " average:" + str(average[m][0]) + " maxium:" + str(maxium[m][0]))
 
-    save(data, "geneOptimizationData")
+    save(data, "geneData201712272331")
 
-    save(result, "geneOptimizationResult")
+    save(result, "geneResult201712272331")
 
-    save(average, "geneOptimizationAverage")
+    save(average, "geneAverage201712272331")
+
+    save(maxium, "geneMaxium201712272331")
