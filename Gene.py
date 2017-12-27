@@ -134,6 +134,10 @@ def cross(fatherIndex, motherIndex, data):
     rand = int(np.random.random(1)*130)
 
     children[0][rand] = 0
+    children[0][rand + 1] = 0
+    children[0][rand + 2] = 0
+    children[0][rand + 3] = 0
+    children[0][rand + 4] = 0
 
     return children
 
@@ -157,11 +161,11 @@ def save(data, name):
 
     writer.writerows(data)
 
-def getDataAndResultFromFile():
+def getDataAndResultFromFile(dataName, resultName):
 
-    dataReader = csv.reader(open('geneSourceOptimizationDataAnother.csv', encoding='utf-8'))
+    dataReader = csv.reader(open(dataName, encoding='utf-8'))
 
-    resultReader = csv.reader(open('geneSourceOptimizationResultAnother.csv', encoding='utf-8'))
+    resultReader = csv.reader(open(resultName, encoding='utf-8'))
 
     data = np.empty((100, 130), dtype = np.float32)
 
@@ -207,11 +211,25 @@ def saveDataAndResult():
 
     save(result, "geneSourceOptimizationResultAnother")
 
+def getMaxium(data):
+
+    result = 0
+
+    for i in range(data.size):
+
+        if data[i][0] > result:
+
+            result = data[i][0]
+
+    return result
+
 def main():
 
-    data, result = getDataAndResultFromFile()
+    data, result = getDataAndResultFromFile("geneSourceData201712272331.csv", "geneResultData201712272331.csv")
 
     average = []
+
+    maxium = []
 
     for m in range(100):
 
@@ -229,9 +247,11 @@ def main():
 
         result[worstIndex] = backPropagation(convertToMatrix(children))
 
-        print("iteration " + str(m) + ":" + str(result[worstIndex]))
-
         average.append(getAverage(result))
+
+        maxium.append(getMaxium(result))
+
+        print("iteration " + str(m) + ":" + str(result[worstIndex]) + " average:" + str(average[average.size - 1]) + " maxium:" + str(maxium[maxium.size - 1]))
 
     save(data, "geneOptimizationData")
 
