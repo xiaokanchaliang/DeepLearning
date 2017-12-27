@@ -16,7 +16,7 @@ def convertToMatrix(data):
 
         for j in range(10):
 
-            result[i][j] = data[i * 10 + j]
+            result[i][j] = data[0][i * 10 + j]
 
     return result
 
@@ -34,13 +34,13 @@ def evaluation(data):
 
     return result
 
-def selection(result):
+def select(result):
 
-    rand = np.random.random(1);
+    rand = np.random.random(1)
 
-    sum = 0;
+    sum = 0
 
-    rate = 0;
+    rate = 0
 
     for i in range(result.size):
 
@@ -48,11 +48,30 @@ def selection(result):
 
     for j in range(result.size):
 
-        rate = rate + result[i] / sum;
+        rate = rate + result[i] / sum
 
         if rand < rate:
 
             return j
+    return 0
+
+def selectBest(result):
+
+    rand = np.random.random(1)
+
+    fatherIndex = 0
+
+    motherIndex = 0
+
+    for i in range(result.size):
+
+        if result[i] > result[fatherIndex]:
+
+            motherIndex = fatherIndex
+
+            fatherIndex = i
+
+    return fatherIndex, motherIndex
 
 def cross(fatherIndex, motherIndex, data):
 
@@ -62,7 +81,7 @@ def cross(fatherIndex, motherIndex, data):
 
         children[0][i] = data[fatherIndex][i]
 
-        children[0][i + 65] = data[motherIndex][i + 65]
+        children[0][i + 65] = data[motherIndex][i]
 
     return children
 
@@ -86,6 +105,34 @@ def save(data, name):
 
     writer.writerows(data)
 
+def getDataAndResultFromFile():
+
+    dataReader = csv.reader(open('geneSourceData.csv', encoding='utf-8'))
+
+    resultReader = csv.reader(open('geneSourceResult.csv', encoding='utf-8'))
+
+    data = np.empty((100, 130), dtype = np.float32)
+
+    result = np.empty((100, 1), dtype = np.float32)
+
+    resultCount = 0
+
+    for dataRow in dataReader:
+
+        for i in range(100):
+
+            for j in range(130):
+
+                data[i][j] = float(dataRow[j])
+
+    for resultRow in resultReader:
+
+        result[resultCount][0] = float(resultRow[0])
+
+        resultCount = resultCount + 1
+
+    return data, result
+
 def getAverage(result):
 
     sum = 0
@@ -96,27 +143,35 @@ def getAverage(result):
 
     return sum / result.size
 
-def main():
+def saveDataAndResult():
 
     data = getData()
 
     result = evaluation(data)
 
+    save(data, "geneSourceData")
+
+    save(result, "geneSourceResult")
+
+def main():
+
+    data, result = getDataAndResultFromFile()
+
     average = []
 
     for m in range(1000):
 
-        fatherIndex = selection(result)
+        fatherIndex = select(result)
 
-        motherIndex = selection(result)
+        motherIndex = select(result)
 
         children = cross(fatherIndex, motherIndex, data)
 
         worstIndex = getWorstIndex(result)
 
-        for i in range(int(data.size / 100)):
+        for i in range(130):
 
-            data[worstIndex][i] = children[i]
+            data[worstIndex][i] = children[0][i]
 
         result[worstIndex] = backPropagation(convertToMatrix(children))
 
