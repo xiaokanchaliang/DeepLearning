@@ -12,21 +12,19 @@ def getOptimizationData():
 
     result = np.empty((100, 130), dtype = np.float32)
 
-    part0 = np.random.uniform(-3, -1.8, size = (20, 130))
-    part1 = np.random.uniform(-1.8, -0.6, size=(20, 130))
-    part2 = np.random.uniform(-0.6, 0.6, size=(20, 130))
-    part3 = np.random.uniform(0.6, 1.8, size=(20, 130))
-    part4 = np.random.uniform(1.8, 3, size=(20, 130))
+    part0 = np.random.uniform(-3, -1.5, size = (25, 130))
+    part1 = np.random.uniform(-1.5, 0, size=(25, 130))
+    part2 = np.random.uniform(0, 1.5, size=(25, 130))
+    part3 = np.random.uniform(1.5, 3, size=(25, 130))
 
-    for i in range(20):
+    for i in range(25):
 
         for j in range(130):
 
             result[i][j] = part0[i][j]
-            result[i + 20][j] = part1[i][j]
-            result[i + 40][j] = part2[i][j]
-            result[i + 60][j] = part3[i][j]
-            result[i + 80][j] = part4[i][j]
+            result[i + 25][j] = part1[i][j]
+            result[i + 50][j] = part2[i][j]
+            result[i + 75][j] = part3[i][j]
 
     return result;
 
@@ -161,9 +159,9 @@ def save(data, name):
 
 def getDataAndResultFromFile():
 
-    dataReader = csv.reader(open('geneSourceDataAnother.csv', encoding='utf-8'))
+    dataReader = csv.reader(open('geneSourceOptimizationDataAnother.csv', encoding='utf-8'))
 
-    resultReader = csv.reader(open('geneSourceResultAnother.csv', encoding='utf-8'))
+    resultReader = csv.reader(open('geneSourceOptimizationResultAnother.csv', encoding='utf-8'))
 
     data = np.empty((100, 130), dtype = np.float32)
 
@@ -215,7 +213,7 @@ def main():
 
     average = []
 
-    for m in range(1000):
+    for m in range(100):
 
         fatherIndex = select(result)
 
