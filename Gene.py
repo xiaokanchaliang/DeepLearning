@@ -8,6 +8,38 @@ def getData():
 
     return result
 
+def getOptimizationData():
+
+    result = np.empty((100, 130), dtype = np.float32)
+
+    part0 = np.random.uniform(-3, -2, size = (10, 130))
+    part1 = np.random.uniform(-2, -1, size=(10, 130))
+    part2 = np.random.uniform(-1, -0.7, size=(10, 130))
+    part3 = np.random.uniform(-0.7, -0.4, size=(10, 130))
+    part4 = np.random.uniform(-0.4, 0, size=(10, 130))
+    part5 = np.random.uniform(0, 0.4, size=(10, 130))
+    part6 = np.random.uniform(0.4, 0.7, size=(10, 130))
+    part7 = np.random.uniform(0.7, 1, size=(10, 130))
+    part8 = np.random.uniform(1, 2, size=(10, 130))
+    part9 = np.random.uniform(2, 3, size=(10, 130))
+
+    for i in range(10):
+
+        for j in range(130):
+
+            result[i][j] = part0[i][j]
+            result[i + 10][j] = part1[i][j]
+            result[i + 20][j] = part2[i][j]
+            result[i + 30][j] = part3[i][j]
+            result[i + 40][j] = part4[i][j]
+            result[i + 50][j] = part5[i][j]
+            result[i + 60][j] = part6[i][j]
+            result[i + 70][j] = part7[i][j]
+            result[i + 80][j] = part8[i][j]
+            result[i + 90][j] = part9[i][j]
+
+    return result;
+
 def convertToMatrix(data):
 
     result = np.empty((13, 10), dtype = np.float32)
@@ -16,7 +48,7 @@ def convertToMatrix(data):
 
         for j in range(10):
 
-            result[i][j] = data[0][i * 10 + j]
+            result[i][j] = data[i * 10 + j]
 
     return result
 
@@ -107,9 +139,9 @@ def save(data, name):
 
 def getDataAndResultFromFile():
 
-    dataReader = csv.reader(open('geneSourceData.csv', encoding='utf-8'))
+    dataReader = csv.reader(open('geneSourceOptimizationData.csv', encoding='utf-8'))
 
-    resultReader = csv.reader(open('geneSourceResult.csv', encoding='utf-8'))
+    resultReader = csv.reader(open('geneSourceOptimizationResult.csv', encoding='utf-8'))
 
     data = np.empty((100, 130), dtype = np.float32)
 
@@ -145,13 +177,13 @@ def getAverage(result):
 
 def saveDataAndResult():
 
-    data = getData()
+    data = getOptimizationData()
 
     result = evaluation(data)
 
-    save(data, "geneSourceData")
+    save(data, "geneSourceOptimizationData")
 
-    save(result, "geneSourceResult")
+    save(result, "geneSourceOptimizationResult")
 
 def main():
 
