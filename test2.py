@@ -1,6 +1,7 @@
 import numpy as np
 import tensorflow as tf
 import csv
+import matplotlib.pyplot as plt
 
 # x_data = np.random.random((1000,13))
 # y_data = np.random.random((1000,1))
@@ -104,15 +105,31 @@ sess.run(init)
 
 # 7.迭代学习
 for i in range(15000):
-    sess.run(train, feed_dict={xs: input1, ys: output13})
+    sess.run(train, feed_dict={xs: input1, ys: output11})
 
 result = 0
 
-predictionResult = sess.run(prediction, feed_dict={xs: input2, ys: output23})
+predictionResult = sess.run(prediction, feed_dict={xs: input2, ys: output21})
 
 for i in range(200):
-    if(int(predictionResult[i]*10) == int(output23[i]*10)):
+    if(int(predictionResult[i]*10) == int(output21[i]*10)):
         result = result + 1;
 
 print(result/200)
+
+figureData = np.empty((200, 2), dtype = np.float32)
+figureData1 = np.empty((200, 1), dtype=np.float32)
+
+for i in range(200):
+
+    figureData[i][0] = predictionResult[i]*(14.5-6.1) + 6.1
+    figureData[i][1] = output23[i]*(14.5-6.1) + 6.1
+    figureData1[i][0] = abs(figureData[i][0]-figureData[i][1])
+
+
+
+
+
+plt.plot(np.linspace(1, 200, 200), figureData1)
+plt.show()
 
