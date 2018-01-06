@@ -126,10 +126,10 @@ for i in range(200):
     figureData[i][1] = output23[i]*(14.5-6.1) + 6.1
     figureData1[i][0] = abs(figureData[i][0]-figureData[i][1])
 
-
-
-
-
-plt.plot(np.linspace(1, 200, 200), figureData1)
-plt.show()
+figureDataFile0050=open('figureData-0-50-201801061422.csv','w',newline='')
+figureDataFile5010=open('figureData-50-100-201801061422.csv','w',newline='')
+processWriter=csv.writer(figureDataFile0050)
+qualityWriter=csv.writer(figureDataFile5010)
+processWriter.writerows(figureData)
+qualityWriter.writerows(figureData1)
 
