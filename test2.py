@@ -74,8 +74,17 @@ biases1 = tf.Variable(tf.zeros([13, 1]))
 biases2 = tf.Variable(tf.zeros([13, 1]))
 
 # 1.定义添加层的方法
-def add_layer(input_data, in_size, out_size, activity_function=None):
-    weights = tf.Variable(tf.zeros([in_size, out_size]))
+def add_layer1(input_data, in_size, out_size, activity_function=None):
+    weights = tf.Variable(tf.zeros([in_size, out_size]) + 0.4)
+    biases = tf.Variable(tf.zeros([1, out_size]))
+    result = tf.matmul(input_data, weights) + biases
+    if activity_function is None:
+        answer = result
+    else:
+        answer = activity_function(result)
+    return answer
+def add_layer2(input_data, in_size, out_size, activity_function=None):
+    weights = tf.Variable(tf.zeros([in_size, out_size]) + 0.5)
     biases = tf.Variable(tf.zeros([1, out_size]))
     result = tf.matmul(input_data, weights) + biases
     if activity_function is None:
@@ -85,18 +94,24 @@ def add_layer(input_data, in_size, out_size, activity_function=None):
     return answer
 
 # 2.定义结点准备接收数据
-xs = tf.placeholder(tf.float32, [None, 13])
-ys = tf.placeholder(tf.float32, [None, 1])
+xs1 = tf.placeholder(tf.float32, [None, 13])
+xs2 = tf.placeholder(tf.float32, [None, 13])
+ys1 = tf.placeholder(tf.float32, [None, 1])
+ys2 = tf.placeholder(tf.float32, [None, 1])
 
 # 3.定义神经网络结构
-hidden_1 = add_layer(xs, 13, 10, activity_function=tf.nn.sigmoid)
-prediction = add_layer(hidden_1, 10, 1, activity_function=tf.nn.sigmoid)
+hidden1_1 = add_layer1(xs1, 13, 10, activity_function=tf.nn.sigmoid)
+hidden2_1 = add_layer2(xs2, 13, 10, activity_function=tf.nn.sigmoid)
+prediction1 = add_layer1(hidden1_1, 10, 1, activity_function=tf.nn.sigmoid)
+prediction2 = add_layer2(hidden2_1, 10, 1, activity_function=tf.nn.sigmoid)
 
 # 4.定义误差表达式
-loss = tf.reduce_mean(tf.reduce_sum(tf.square(ys - prediction), reduction_indices=[1]))
+loss1 = tf.reduce_mean(tf.reduce_sum(tf.square(ys1 - prediction1), reduction_indices=[1]))
+loss2 = tf.reduce_mean(tf.reduce_sum(tf.square(ys2 - prediction2), reduction_indices=[1]))
 
 # 5.选择optimizer使误差达到最小
-train = tf.train.GradientDescentOptimizer(0.1).minimize(loss)
+train1 = tf.train.GradientDescentOptimizer(0.1).minimize(loss1)
+train2 = tf.train.GradientDescentOptimizer(0.1).minimize(loss2)
 
 # 6.对所有的变量进行初始化
 init = tf.global_variables_initializer()
@@ -105,31 +120,29 @@ sess.run(init)
 
 # 7.迭代学习
 for i in range(15000):
-    sess.run(train, feed_dict={xs: input1, ys: output11})
+    sess.run(train1, feed_dict={xs1: input1, ys1: output11})
+    sess.run(train2, feed_dict={xs2: input1, ys2: output11})
 
-result = 0
+predictionResult1 = sess.run(prediction1, feed_dict={xs1: input2, ys1: output21})
+predictionResult2 = sess.run(prediction2, feed_dict={xs2: input2, ys2: output21})
 
-predictionResult = sess.run(prediction, feed_dict={xs: input2, ys: output21})
+errorData1 = np.abs(predictionResult1 - output21)
+errorData2 = np.abs(predictionResult2 - output21)
 
-for i in range(200):
-    if(int(predictionResult[i]*10) == int(output21[i]*10)):
-        result = result + 1;
-
-print(result/200)
-
-figureData = np.empty((200, 2), dtype = np.float32)
-figureData1 = np.empty((200, 1), dtype=np.float32)
+sum1 = 0
+sum2 = 0
 
 for i in range(200):
+    sum1 = sum1 + errorData1[i][0]
+    sum2 = sum2 + errorData2[i][0]
 
-    figureData[i][0] = predictionResult[i]*(14.5-6.1) + 6.1
-    figureData[i][1] = output23[i]*(14.5-6.1) + 6.1
-    figureData1[i][0] = abs(figureData[i][0]-figureData[i][1])
+print(sum1/200)
+print(sum2/200)
 
 figureDataFile0050=open('figureData-0-50-201801061422.csv','w',newline='')
 figureDataFile5010=open('figureData-50-100-201801061422.csv','w',newline='')
 processWriter=csv.writer(figureDataFile0050)
 qualityWriter=csv.writer(figureDataFile5010)
-processWriter.writerows(figureData)
-qualityWriter.writerows(figureData1)
+processWriter.writerows(errorData1)
+qualityWriter.writerows(errorData2)
 
